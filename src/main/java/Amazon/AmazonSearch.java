@@ -24,14 +24,20 @@ public class AmazonSearch {
 		if(args.length != 4) {
 			System.out.println("java usage : -reviews <review_file_name> -qa <qa_file_name>");
 		}
+		System.out.println("HELLO");
 		long sTime = System.currentTimeMillis();
 		String reviewFile = args[1];
 		String qaFile = args[3];
 		Processing p = new Processing(reviewFile, qaFile);
+
 		
+		
+		//readData(reviewFile, r);
+		//readData(qaFile, q);
 		System.out.println("Processing done.....\n");
 		
-		p.findAsin("B000C12GH2");
+		//p.findAsin("B000C12GH2");
+		//p.findAsin("B0006B088W");
 		long eTime = System.currentTimeMillis();
 		System.out.println("\n\nTotal exec time : " + (eTime-sTime)/1000);
 		//userInput();
@@ -50,5 +56,21 @@ public class AmazonSearch {
 		}
 		System.exit(1);
 	}
-
+/*
+	public static void readData(String file, Object s) throws IOException {
+		String line;
+		BufferedReader f = Files.newBufferedReader(Paths.get(file), Charset.forName("ISO-8859-1"));
+		Gson gson = new GsonBuilder().create();
+		Data inst;
+		while((line = f.readLine()) != null) {
+			if(s instanceof Reviews) {
+				inst = (Reviews) s;
+				
+			else
+				inst = (QA) s;
+			
+		}
+		
+	}
+*/
 }
