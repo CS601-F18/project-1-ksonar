@@ -117,7 +117,7 @@ public class Processing {
 				switch (split[0].toLowerCase()) {
 				case "find" :
 					System.out.println("~~~Records from Review objects~~~");
-					i1.findAsin(function);
+					i1.findAsin(function.toUpperCase());
 					System.out.println("~~~Records from QA objects~~~");
 					i2.findAsin(function.toUpperCase());
 					break;
