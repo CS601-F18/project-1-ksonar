@@ -119,7 +119,7 @@ public class Processing {
 					System.out.println("~~~Records from Review objects~~~");
 					i1.findAsin(function);
 					System.out.println("~~~Records from QA objects~~~");
-					i2.findAsin(function);
+					i2.findAsin(function.toUpperCase());
 					break;
 				case "reviewsearch" :
 					i1.search(function);
