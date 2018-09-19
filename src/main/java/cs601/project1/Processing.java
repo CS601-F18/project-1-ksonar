@@ -1,10 +1,12 @@
 package cs601.project1;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +23,6 @@ import com.google.gson.JsonSyntaxException;
 
 public class Processing {
 	
-	HashMap<String, ArrayList<Data>> asinReview = new HashMap<String, ArrayList<Data>>();
-	HashMap<String, ArrayList<Data>> asinQA = new HashMap<String, ArrayList<Data>>();
 	Data inst;
 	InvertedIndex i1 = new InvertedIndex();
 	InvertedIndex i2 = new InvertedIndex();
@@ -42,12 +42,6 @@ public class Processing {
 		readAndMap(qaFile, qa);
 		i2.sortWordIndex();
 
-		
-		//System.out.println("ASINREVIEW SIZE : "+i1.asinIndex.size());
-		//System.out.println("ASINQA SIZE : "+i2.asinIndex.size());
-		//System.out.println("i1 SIZE : "+i1.wordIndex.size());
-		//System.out.println("i2 SIZE : "+i2.wordIndex.size());
-
 	}
 	
 	/*
@@ -57,8 +51,16 @@ public class Processing {
 	 */
 	
 	public void readAndMap (String file, Object s) throws IOException {
-
-		BufferedReader f = Files.newBufferedReader(Paths.get(file), StandardCharsets.ISO_8859_1);
+		BufferedReader f = null;
+		try {
+			f = Files.newBufferedReader(Paths.get(file), StandardCharsets.ISO_8859_1);
+		}
+		catch (NoSuchFileException i) {
+			System.out.printf("MESSAGE : NO SUCH FILE : %s\n",file);
+			System.exit(1);
+		}
+		
+		
 		Gson gson = new GsonBuilder().create();
 		String line;
 
@@ -72,17 +74,14 @@ public class Processing {
 		while((line = f.readLine()) != null) {
 			try {
 				inst = gson.fromJson(line, inst.getClass());
-				
 			}
 			catch (JsonSyntaxException i) {
-				System.out.printf("MESSAGE : %s", i.getStackTrace());
+				System.out.printf("MESSAGE : JsonSyntaxException");
 			}
 			if ( s instanceof Reviews) {
-
 				i1.addObjectData(inst);
 			}
 			else {
-
 				i2.addObjectData(inst);
 			}
 		}
@@ -99,7 +98,6 @@ public class Processing {
 		String input;
 		String[] split;
 		
-		//while( !(input = sc.nextLine().toLowerCase()).equals("exit"))
 		do {
 			System.out.print("Enter query : ");
 			input = sc.nextLine();
@@ -112,7 +110,7 @@ public class Processing {
 				continue;
 			}
 			else {
-				function = split[1].replaceAll("[^A-Za-z0-9 ]", "");
+				function = split[1].replaceAll("[^A-Za-z0-9 ]", "").toLowerCase();
 			
 				switch (split[0].toLowerCase()) {
 				case "find" :
@@ -129,6 +127,7 @@ public class Processing {
 					break;
 				case "reviewpartialsearch" :
 					i1.partialSearch(function);
+					
 					break;
 				case "qapartialsearch" :
 					i2.partialSearch(function);
@@ -140,7 +139,6 @@ public class Processing {
 			}
 				
 		} while (true);
-		//sc.close();
 		
 	} 
 	

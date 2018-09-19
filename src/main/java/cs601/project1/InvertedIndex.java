@@ -35,7 +35,6 @@ public class InvertedIndex {
 			fullText = ((QA) o).getQuestion() + " " + ((QA) o).getAnswer();
 		
 		splitAndRegex(fullText);
-
 		updateAsinHashMap(o);
 		updateWordIndex(o);
 			
@@ -119,7 +118,6 @@ public class InvertedIndex {
 	 */
 	
 	public void findAsin (String asin) {
-		StringBuffer sb = new StringBuffer();
 		int count = 1;
 		Boolean check = false;
 		if(asinIndex.containsKey(asin)) {
